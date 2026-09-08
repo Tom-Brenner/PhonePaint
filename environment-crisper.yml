@@ -1,0 +1,24 @@
+name: crisperWhisper
+# Optional CrisperWhisper ASR (--mfa --Crisper).
+# Create with: ./create_mfa_envs.sh --crisper  (or ./setup_from_clone.sh --mfa --crisper)
+# Transformers fork pin: tools/repro_pins.env (CRISPER_TRANSFORMERS_GIT).
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pytorch=2.5.1
+  - pytorch-cuda=12.1
+  - pytorch-mutex=1.0=cuda
+  - torchaudio=2.5.1
+  - numpy>=1.26,<2.1
+  - pip:
+      - accelerate==1.14.0
+      - librosa==0.11.0
+      - scipy==1.15.3
+      - soundfile==0.13.1
+      - tqdm==4.70.0
+      # Installed by create_mfa_envs.sh from CRISPER_TRANSFORMERS_GIT (not PyPI).

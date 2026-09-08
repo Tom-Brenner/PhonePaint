@@ -1,0 +1,86 @@
+name: PhonePaintUnified
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  # Do not conda-install ffmpeg: the pytorch channel's ffmpeg 4.3 links
+  # libopenh264.so.5, which conda-forge openh264 2.1.1 does not provide.
+  # Use the system ffmpeg (already on PATH after this env is activated).
+  - pytorch=2.5.1
+  - pytorch-cuda=12.1
+  - pytorch-mutex=1.0=cuda
+  - torchaudio=2.5.1
+  # ESPnet/numba and the existing PhonePaint checkpoints are tested below 2.1.
+  - numpy>=2.0,<2.1
+  - pyyaml
+  - pip:
+      # PhonePaint / ESPnet runtime (pinned to a known-good PhonePaintUnified freeze)
+      - argcomplete==3.6.3
+      - audioread==3.1.0
+      - beautifulsoup4==4.15.0
+      - cffi==2.0.0
+      - configargparse==1.7.5
+      - editdistance==0.8.1
+      - einops==0.8.2
+      - encodec==0.1.1
+      - fairscale==0.4.13
+      - filelock==3.32.4
+      - gdown==5.2.2
+      - h5py==3.14.0
+      - humanfriendly==10.0
+      - kaldiio==2.18.1
+      - librosa==0.11.0
+      - matplotlib==3.10.9
+      - numba==0.60.0
+      - pillow==11.3.0
+      - protobuf==6.33.6
+      - pyworld==0.3.5
+      - scikit-learn==1.7.2
+      - scipy==1.15.3
+      - sentencepiece==0.2.2
+      - soundfile==0.13.1
+      - soxr==1.1.0
+      - tensorboard==2.21.0
+      - tensorboardx==2.6.5
+      - torch-complex==0.4.4
+      - tqdm==4.70.0
+      - typeguard==2.13.3
+      - xmltodict==1.0.4
+      - yq==3.4.3
+
+      # Unified Torch transcription
+      - accelerate==1.14.0
+      - huggingface-hub==0.36.2
+      - safetensors==0.8.0
+      - transformers==4.57.6
+
+      # ECAPA speaker embeddings (run_demo.py → outreach/ecapa_embeddings.npz)
+      - speechbrain==1.1.0
+
+      # BFA runtime dependencies. BFA itself is installed with --no-deps by
+      # create_unified_env.sh because its unused torchcodec>=0.9.1 metadata
+      # would otherwise replace this tested Torch 2.5 stack with Torch 2.9.
+      # Versions for BFA / phonemizer-fork: tools/repro_pins.env
+      - click==8.4.2
+      - espeakng-loader==0.2.4
+      - phonemizer==3.3.0
+      # Applio-identical silence segmentation (tools/segment/segment_wav_directory.py)
+      - pydub==0.25.1
+
+      # FALCON inference-only extras (same PhonePaintUnified env as --bfa; no falcon_env hop).
+      # Training stack (hydra/wandb) is stubbed by tools/falcon/run_vendor_cli.py.
+      - "setuptools>=65,<81"
+      - panphon==0.21.0
+      - dill==0.3.1.1
+      - boltons==20.0.0
+      - TextGrid==1.6.1
+      - omegaconf==1.4.1
+      - torch-optimizer==0.0.1a12
+
+      # MAPS forced aligner (--maps; in-process Torch, no TensorFlow sidecar)
+      - python_speech_features
+      - natsort

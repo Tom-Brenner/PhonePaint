@@ -1,0 +1,39 @@
+PhonePaint
+Copyright 2026 Tom Brenner
+
+This product incorporates and modifies software from A³T:
+https://github.com/richardbaihe/a3t
+Licensed under the Apache License, Version 2.0.
+
+A³T is based on ESPnet:
+https://github.com/espnet/espnet
+Copyright 2017 Johns Hopkins University (Shinji Watanabe)
+Licensed under the Apache License, Version 2.0.
+
+This product bundles the CMU Pronouncing Dictionary [cmudict.0.7a] at
+tools/maps/nltk_data/corpora/cmudict/:
+http://www.speech.cs.cmu.edu/cgi-bin/cmudict
+Copyright (C) 1993-2008 Carnegie Mellon University. All rights reserved.
+Redistributed under the two-clause BSD-style license reproduced in
+tools/maps/nltk_data/corpora/cmudict/README.
+
+The aligner checkpoints fetched into tools/maps/torch_models/ are PyTorch
+ports of the TensorFlow models published by the Mason-Alberta Phonetic
+Segmenter (MAPS):
+https://github.com/MasonPhonLab/MAPS
+Licensed under the MIT License; see that repository's LICENSE for the
+copyright notice and full terms. The conversion used here is published at:
+https://github.com/Tom-Brenner/TORCH-MAPS
+
+This product bundles one speech recording at tests/p225_001_mic2.wav
+(speaker p225, sentence 001, mic2) from the CSTR VCTK Corpus:
+https://doi.org/10.7488/ds/2645
+Copyright (C) 2019 The Centre for Speech Technology Research (CSTR),
+University of Edinburgh.
+Licensed under the Open Data Commons Attribution License (ODC-By) v1.0:
+https://opendatacommons.org/licenses/by/1-0/
+It is included solely as an integration-test fixture.
+
+Third-party libraries, model checkpoints, datasets, and demonstration
+recordings are not relicensed by PhonePaint. Their respective licenses and
+terms continue to apply.

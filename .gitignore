@@ -1,0 +1,119 @@
+# Outreach material and the demo player are published from GCS, not shipped in
+# the repo; they stay on disk but are not tracked.
+outreach/
+examples/
+
+# Legacy CLIs kept locally but out of the repo. The 24 kHz EnCodec path lives
+# here (run_inpaint_pipeline.py --encodec 24k -> infer_phone_ec.py); the
+# encodec pin stays in environment.yml so these still run from a checkout.
+infer_phone_ec.py
+infer_phone_ec_cond_lip.py
+run_inpaint_pipeline.py
+
+# general
+*~
+*.pyc
+\#*\#
+.\#*
+*DS_Store
+out.txt
+espnet.egg-info/
+doc/_build
+slurm-*.out
+tmp*
+.eggs/
+.hypothesis/
+.idea
+.pytest_cache/
+__pycache__/
+check_autopep8
+.coverage
+htmlcov
+coverage.xml*
+bats-core/
+shellcheck*
+check_shellcheck*
+test_spm.vocab
+test_spm.model
+.vscode*
+*.vim
+*.swp
+*.nfs*
+
+# recipe related
+egs*/*/*/data*
+egs*/*/*/db
+egs*/*/*/downloads
+egs*/*/*/dump
+egs*/*/*/enhan
+egs*/*/*/exp
+egs*/*/*/exp_backup
+egs*/*/*/*.npy
+egs*/*/*/fbank
+egs*/*/*/mfcc
+egs*/*/*/stft
+egs*/*/*/tensorboard
+egs*/*/*/wav*
+egs*/*/*/nltk*
+egs*/*/*/.cache*
+egs*/*/*/.ipynb_checkpoints
+# tools related
+tools/bin
+tools/include
+tools/lib
+tools/lib64
+tools/bats-core
+tools/chainer_ctc/
+tools/kaldi*
+tools/activate_python.sh
+tools/miniconda.sh
+tools/moses/
+tools/mwerSegmenter/
+tools/nkf/
+tools/venv/
+.venv-ui/
+tools/sentencepiece/
+tools/swig/
+tools/warp-ctc/
+tools/warp-transducer/
+tools/*.done
+tools/PESQ*
+tools/hts_engine_API*
+tools/open_jtalk*
+tools/pyopenjtalk*
+tools/tdmelodic_openjtalk*
+tools/sctk*
+tools/sph2pipe*
+tools/espeak-ng*
+tools/MBROLA*
+tools/festival*
+tools/speech_tools*
+tools/phonemizer*
+tools/py3mmseg
+tools/anaconda
+tools/._*
+raw_data/
+output/
+*.npy
+TextGrid/
+hifigan/*.pth.tar
+*.wav
+# The one tracked recording: integration-test fixture (see NOTICE).
+!tests/p225_001_mic2.wav
+aggregate_output/figures
+aggregate_output/results
+
+# Local-only demo / comparison tooling (kept on disk; not published)
+run_demo.py
+run_demo_batched.py
+tools/seedvc/
+tools/voicecraft/
+
+# phone-conditioned training — keep out of git (use GCS)
+exp/
+work/
+*.pt
+*.npz
+
+# Fresh-clone deps (populated by setup_from_clone.sh / tools/setup_voicecraft.sh)
+third_party/

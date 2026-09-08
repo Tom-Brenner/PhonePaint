@@ -1,0 +1,73 @@
+name: PhonePaint
+# Mirrors the working local PhonePaintMFA package set, minus MFA itself:
+#   Whisper ASR + CUDA Torch + Torch MAPS + PhonePaint inpaint.
+# MFA is NOT installed here — it runs as the ``mfa_env`` sidecar CLI
+# (./create_mfa_envs.sh), which is what run_inpaint_pipeline.py /
+# inpaint_pipeline.py shell out to for --mfa.
+#
+# Versions below are taken from `conda env export -n PhonePaintMFA` on the
+# machine where the pipeline is known to work — do not relax them to ranges.
+#
+# Pin pytorch-channel CUDA builds (pytorch::…) so conda-forge cannot swap in
+# a cpu_mkl build. Create with flexible channel priority (see
+# create_phonepaint_env.sh) so the pytorch channel stays visible.
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.12
+  - pip
+  - numpy>=2.0,<2.1
+  - pytorch::pytorch=2.5.1=py3.12_cuda12.4*
+  - pytorch::pytorch-cuda=12.4
+  - pytorch::torchaudio=2.5.1
+  # Pinned to the versions in the working local PhonePaintMFA env. Left
+  # floating, a fresh solve months later picks up whatever conda-forge ships
+  # that day, which is how the huggingface_hub 1.x breakage got in.
+  - librosa=0.11.0
+  - soxr-python=1.1.0
+  - scipy=1.18.0
+  - scikit-learn=1.9.0
+  - matplotlib=3.11.1
+  - tqdm=4.70.0
+  - requests=2.34.2
+  - pyyaml=6.0.3
+  - click=8.4.2
+  - rich=15.0.0
+  - jinja2=3.1.6
+  - ffmpeg=8.0.1
+  - sox=14.4.2
+  - pip:
+      # Whisper ASR
+      - accelerate==1.14.0
+      - transformers==4.57.6
+      # huggingface_hub must stay <1.0 (transformers 4.57.6 requires
+      # huggingface-hub<1.0,>=0.34.0). Kept here rather than in the conda
+      # section because conda cannot see the pip section's constraints and
+      # happily solves conda-forge's 1.x, whose httpx-based
+      # RemoteEntryNotFoundError no longer subclasses requests.HTTPError —
+      # so the benign 404 for additional_chat_templates escapes the except
+      # clause in transformers.utils.hub.list_repo_templates and kills ASR.
+      - huggingface_hub==0.36.2
+      - safetensors==0.8.0
+      - sentencepiece==0.2.2
+      # PhonePaint / ESPnet / EnCodec runtime
+      # editdistance: imported by espnet.nets.e2e_asr_common, which
+      # infer_phone_ec_cond.py reaches via train_phone_ec_cond.py. setup.py
+      # declares it, but create_phonepaint_env.sh installs this repo with
+      # --no-deps, so it has to be listed here explicitly.
+      - editdistance==0.8.1
+      - soundfile==0.13.1
+      - pydub==0.25.1
+      - einops==0.8.2
+      - encodec==0.1.1
+      - kaldiio==2.18.1
+      - typeguard==2.13.3
+      - torch-complex==0.4.4
+      - h5py==3.16.0
+      - protobuf==6.33.6
+      # Torch MAPS aligner (--maps); .pt weights via tools/maps/sync_checkpoints.sh
+      - TextGrid==1.6.1
+      - python_speech_features==0.6
+      - natsort==8.4.0

@@ -1,0 +1,31 @@
+name: mfa_env
+# Montreal Forced Aligner stack for --mfa alignment (Kaldi CLI sidecar).
+# Create with: ./create_mfa_envs.sh  (or ./setup_from_clone.sh --mfa)
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - pip
+  - montreal-forced-aligner=2.2.17
+  # Declared explicitly so a fresh solve still gets the sidecar binaries MFA
+  # shells out to (PATH must include this env's bin/ — see mfa_cli_env()).
+  - kaldi
+  - sox
+  - openfst
+  - pynini
+  - textgrid=1.5
+  - praatio=6.0.0
+  - numpy>=1.26,<2
+  # MFA 2.2.17 calls joblib.Memory(bytes_limit=...), removed in joblib 1.5.
+  - joblib=1.3.2
+  - scipy>=1.13,<2
+  - librosa>=0.11,<0.12
+  - pyyaml
+  - requests
+  - tqdm
+  - rich
+  - click
+  - sqlalchemy
+  - pip:
+      - pydub==0.25.1
