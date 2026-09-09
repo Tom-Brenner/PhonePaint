@@ -245,11 +245,27 @@ PAIR_COLOURS = tuple(name for name, _, _ in KEY_COLOURS)
 # selector costs nothing and survives the class moving to the wrapper.
 # opacity is pinned because an assigned key is also a disabled key, and the
 # default disabled styling would wash the colour out.
+# Gradio's own enabled and disabled buttons differ by a few percent of grey,
+# which reads as noise rather than as a rule, so both states are restated here:
+# a live key is white with dark text and a solid border, a dead one is flat
+# grey with faint text and a dashed border. The pair colours come last because
+# an assigned key is also a disabled key, and equal-specificity rules are
+# settled by order.
 KEY_CSS = "\n".join(
-    f".pp-c{i}, .pp-c{i} button {{ background: {bg} !important; "
-    f"color: {fg} !important; border-color: {bg} !important; "
-    "opacity: 1 !important; }"
-    for i, (_, bg, fg) in enumerate(KEY_COLOURS)
+    [
+        ".pp-on, .pp-on button { background: #ffffff !important; "
+        "color: #111827 !important; border: 1px solid #4b5563 !important; "
+        "font-weight: 600 !important; opacity: 1 !important; }",
+        ".pp-off, .pp-off button { background: #eceef1 !important; "
+        "color: #b4b8c0 !important; border: 1px dashed #d3d7dd !important; "
+        "font-weight: 400 !important; opacity: 1 !important; }",
+    ]
+    + [
+        f".pp-c{i}, .pp-c{i} button {{ background: {bg} !important; "
+        f"color: {fg} !important; border: 1px solid {bg} !important; "
+        "font-weight: 600 !important; opacity: 1 !important; }"
+        for i, (_, bg, fg) in enumerate(KEY_COLOURS)
+    ]
 )
 KEYS_PER_ROW = 6
 
@@ -311,10 +327,13 @@ def _keyboard(handler, live: bool, colours: dict, allowed, sel_state):
         with gr.Row():
             for phone in row:
                 index = colours.get(phone)
+                pressable = live and (allowed is None or phone in allowed)
+                classes = ["pp-on" if pressable else "pp-off"]
+                if index is not None:
+                    classes.append(f"pp-c{index}")
                 key = gr.Button(
                     phone, size="sm", min_width=64,
-                    interactive=live and (allowed is None or phone in allowed),
-                    elem_classes=[f"pp-c{index}"] if index is not None else [],
+                    interactive=pressable, elem_classes=classes,
                 )
 
                 def clicked(selection, _phone=phone):
